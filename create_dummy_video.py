@@ -29,8 +29,8 @@ if __name__ == "__main__":
     # Adjust path based on project structure
     # Standard YOLO: train/images
     PROJECT_ROOT = "d:/ML project/Bird Counting"
-    IMAGE_DIR = os.path.join(PROJECT_ROOT, "train", "images")
-    OUTPUT_VIDEO = os.path.join(PROJECT_ROOT, "data", "test_video.mp4")
+    IMAGE_DIR = os.path.join(PROJECT_ROOT, "yolo_data", "images", "train")
+    OUTPUT_VIDEO = os.path.join(PROJECT_ROOT, "data", "sample_video.mp4")
     
     os.makedirs(os.path.dirname(OUTPUT_VIDEO), exist_ok=True)
     

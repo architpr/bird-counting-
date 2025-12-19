@@ -1,0 +1,91 @@
+{
+  "status": "success",
+  "filename": "processed_poultry_feed_cctv_01.mp4",
+  "summary": {
+    "total_unique_birds": 12,
+    "average_bird_count": 5.4,
+    "video_duration_seconds": 10.0
+  },
+  "counts": [
+    {
+      "timestamp": 0.0,
+      "bird_count": 3
+    },
+    {
+      "timestamp": 1.0,
+      "bird_count": 5
+    },
+    {
+      "timestamp": 2.0,
+      "bird_count": 6
+    },
+    {
+      "timestamp": 3.0,
+      "bird_count": 6
+    },
+    {
+      "timestamp": 4.0,
+      "bird_count": 5
+    },
+    {
+      "timestamp": 5.0,
+      "bird_count": 7
+    }
+  ],
+  "tracks_sample": [
+    {
+      "track_id": 1,
+      "representative_box": {
+        "xmin": 120,
+        "ymin": 340,
+        "xmax": 180,
+        "ymax": 400
+      },
+      "class": "Chicken"
+    },
+    {
+      "track_id": 2,
+      "representative_box": {
+        "xmin": 450,
+        "ymin": 210,
+        "xmax": 515,
+        "ymax": 280
+      },
+      "class": "Chicken"
+    },
+    {
+      "track_id": 3,
+      "representative_box": {
+        "xmin": 300,
+        "ymin": 150,
+        "xmax": 350,
+        "ymax": 200
+      },
+      "class": "Chicken"
+    }
+  ],
+  "weight_estimates": [
+    {
+      "track_id": 1,
+      "weight_proxy": 3600.0,
+      "unit": "pixel_area",
+      "uncertainty_index": 0.1
+    },
+    {
+      "track_id": 2,
+      "weight_proxy": 4550.0,
+      "unit": "pixel_area",
+      "uncertainty_index": 0.08
+    },
+    {
+      "track_id": 3,
+      "weight_proxy": 2500.0,
+      "unit": "pixel_area",
+      "uncertainty_index": 0.15
+    }
+  ],
+  "artifacts": [
+    "/output/processed_poultry_feed_cctv_01.mp4",
+    "/output/stats_poultry_feed_cctv_01.csv"
+  ]
+}

@@ -16,6 +16,7 @@ CONFIDENCE_THRESHOLD = 0.3
 IOU_THRESHOLD = 0.5
 TRACKER_CONFIG = "bytetrack.yaml"
 
-# Class IDs for YOLOv8 COCO pretrained
-# 14 is 'bird' in COCO
-TARGET_CLASS_IDS = [14] 
+# Class IDs
+# If using fine-tuned 'chicken_model', there is only 1 class (index 0: 'Chicken')
+# If using 'yolov8n.pt' (COCO), 'bird' is index 14.
+TARGET_CLASS_IDS = [0] if "chicken_model" in MODEL_PATH else [14]
