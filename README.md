@@ -8,6 +8,10 @@
 A comprehensive Computer Vision system designed to detect, track, and estimate the weight of poultry from CCTV footage. Built with **YOLOv8**, **ByteTrack**, and a modern **FastAPI + Streamlit** stack.
 
 ---
+## 📁 Project Demo Video
+https://github.com/user-attachments/assets/dd266d38-d8f5-4024-9c67-f385d759d402
+
+---
 
 ## 🏗️ System Architecture
 
