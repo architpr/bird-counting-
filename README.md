@@ -1,85 +1,133 @@
-# Bird Counting and Weight Estimation System 🐔
+# 🐔 Bird Counting & Weight Estimation System
 
-A computer vision prototype for counting birds and estimating their weight from CCTV footage using YOLOv8 and ByteTrack.
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com)
+[![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io)
+[![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-orange?style=for-the-badge)](https://github.com/ultralytics/ultralytics)
 
-## Features
-- **Detection**: YOLOv8 (Nano) for fast bird detection.
-- **Tracking**: ByteTrack to handle occlusion and improved counting.
-- **Weight Estimation**: Relative Weight Index ($Width \times Height$) as a proxy.
-- **Interactive UI**: Streamlit dashboard for easy video analysis.
-- **Rest API**: FastAPI backend for processing.
+A comprehensive Computer Vision system designed to detect, track, and estimate the weight of poultry from CCTV footage. Built with **YOLOv8**, **ByteTrack**, and a modern **FastAPI + Streamlit** stack.
 
-## Project Structure
+---
+
+## 🏗️ System Architecture
+
+The system follows a modular microservices-like architecture, separating the heavy CV processing from the user interface.
+
+```mermaid
+graph TD
+    User([👤 User]) <-->|Uploads Video / Views Results| UI[Streamlit Dashboard]
+    UI <-->|HTTP POST /analyze_video| API[FastAPI Backend]
+    
+    subgraph "Core Engine (core/)"
+        API -->|Trigger Analysis| VP[VideoProcessor]
+        VP -->|Raw Frame| YOLO[🚀 YOLOv8 Detection]
+        YOLO -->|BBox & Class| BT[🔄 ByteTrack Tracking]
+        BT -->|Track IDs| Logic[⚖️ Weight & Count Logic]
+    end
+    
+    Logic -->|Draws| Video[🎥 Processed Video]
+    Logic -->|Aggregates| Data[📊 Time-Series Stats]
+    
+    Video -.->|Static File Serve| UI
+    Data -.->|JSON Response| UI
 ```
-.
-├── api/             # FastAPI Backend
-│   └── main.py
-├── core/            # computer Vision Logic
-│   ├── pipeline.py
-│   └── settings.py
-├── ui/              # Streamlit Frontend
-│   └── app.py
-├── data/            # Data storage (input/output)
-├── requirements.txt
-└── README.md
-```
 
-## Setup
+## ✨ Key Features
 
-1.  **Environment Setup**:
-    Ensure you have Python 3.8+ installed.
+- **🎯 Real-time Detection**: Utilizes `YOLOv8-Nano` (Fine-tuned) for high-speed bird detection.
+- **🔄 Robust Tracking**: Integrated `ByteTrack` algorithm to maintain unique IDs across frames and handle occlusions.
+- **⚖️ Weight Estimation Proxy**: Calculates a Relative Weight Index ($Width \times Height$) to monitor flock growth trends.
+- **📊 Interactive Dashboard**:
+    - Side-by-side video comparison (Original vs. Processed).
+    - Real-time line charts for bird counts.
+    - Data export capabilities.
+- **🔌 RESTful API**: Fully documented FastAPI backend for integration with other systems.
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Python 3.8+
+- CUDA-enabled GPU (Recommended for faster processing)
+
+### Installation
+
+1.  **Clone the Repository**
+    ```bash
+    git clone https://github.com/architpr/bird-counting-.git
+    cd bird-counting-
+    ```
+
+2.  **Set up Environment**
     ```bash
     python -m venv venv
     # Windows
-    venv\Scripts\activate
-    # Linux/Mac
+    .\venv\Scripts\activate
+    # Mac/Linux
     source venv/bin/activate
     ```
 
-2.  **Install Dependencies**:
+3.  **Install Dependencies**
     ```bash
     pip install -r requirements.txt
     ```
 
-## Usage
+## 🏃‍♂️ Usage
 
-You need to run both the Backend (FastAPI) and Frontend (Streamlit).
+We provide a **one-click startup script** for Windows users.
 
-### 1. Start the Backend API
-Run this in one terminal:
+### Option A: Quick Start (Windows)
+Double-click `start_app.bat` or run:
+```powershell
+.\start_app.bat
+```
+*This will launch both the API (Port 8000) and the UI (Port 8501).*
+
+### Option B: Manual Startup
+
+**1. Start Backend API**
 ```bash
 uvicorn api.main:app --reload --port 8000
 ```
-Check health: [http://localhost:8000/health](http://localhost:8000/health)
 
-### 2. Start the Frontend UI
-Run this in a separate terminal:
+**2. Start Frontend UI**
 ```bash
 streamlit run ui/app.py
 ```
-Open your browser at [http://localhost:8501](http://localhost:8501).
 
-### 3. Analyze Video
-1.  Open the Streamlit App.
-2.  Upload a CCTV MP4/AVI file.
-3.  Click "Analyze Video".
-4.  View results and charts.
+Access the dashboard at: [http://localhost:8501](http://localhost:8501)
 
-## API Usage (cURL)
+## 🧠 Model & Fine-Tuning
 
-You can also use the API directly:
+The system uses a **YOLOv8n** model fine-tuned on the *Chickens Dataset* (TFRecord source).
 
-```bash
-curl -X POST "http://localhost:8000/analyze_video" \
-  -H "accept: application/json" \
-  -H "Content-Type: multipart/form-data" \
-  -F "file=@/path/to/your/video.mp4"
+| Metric | Value (Epoch 3) | Description |
+| :--- | :--- | :--- |
+| **Precision** | **0.37** | Accuracy of positive predictions. |
+| **Recall** | **0.47** | Ability to find all positive instances. |
+| **mAP@50** | **0.36** | Mean Average Precision at 0.5 IoU. |
+| **F1 Score** | **0.42** | Harmonic mean of Precision and Recall. |
+
+*Note: The system automatically loads the fine-tuned weights from `output/chicken_model/weights/best.pt` if available.*
+
+## 🔌 API Reference
+
+**POST** `/analyze_video`
+- **Input**: `file` (Multipart/Form-Data, .mp4/.avi)
+- **Output**: JSON containing processing stats and video URL.
+
+**GET** `/health`
+- Checks if the API is running.
+
+## 📁 Directory Structure
+```
+├── api/          # FastAPI application
+├── core/         # Computer Vision logic (Pipeline, Settings)
+├── ui/           # Streamlit dashboard
+├── data/         # Temp storage for uploads
+├── output/       # Processed videos & Training runs
+├── train_model.py # Fine-tuning script
+└── convert_tfrecord.py # Dataset conversion tool
 ```
 
-## Assumptions & Limitations
-- **Weight Proxy**: The weight is strictly a heuristic ($W \times H$) in pixels. Real-world usage requires calibration with ground truth weights.
-- **Model**: Uses pretrained YOLOv8n (COCO 'bird' class). Fine-tuning on the specific "Chickens" dataset is recommended for production accuracy.
-- **Performance**: Processing speed depends on hardware (GPU recommended).
-
-## License
-MIT
+## 📜 License
+Distributed under the MIT License. See `LICENSE` for more information.
