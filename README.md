@@ -132,6 +132,3 @@ The system uses a **YOLOv8n** model fine-tuned on the *Chickens Dataset* (TFReco
 ├── train_model.py # Fine-tuning script
 └── convert_tfrecord.py # Dataset conversion tool
 ```
-
-## 📜 License
-Distributed under the MIT License. See `LICENSE` for more information.
