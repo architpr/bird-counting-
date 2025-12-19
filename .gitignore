@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.env
+
+# OS
+.DS_Store
+
+# Agent
+.gemini/
+
+# Large Data/Output (Optional: Comment out if you want to push these)
+# data/
+# output/
+
+# IDE
+.vscode/
+.idea/

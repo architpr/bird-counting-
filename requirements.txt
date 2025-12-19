@@ -1,0 +1,9 @@
+ultralytics
+fastapi
+uvicorn
+streamlit
+opencv-python
+pandas
+numpy
+python-multipart
+# supervision # Optional, but ultralytics tracks well enough for now
